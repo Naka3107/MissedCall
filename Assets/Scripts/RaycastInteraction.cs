@@ -9,9 +9,11 @@ public class RaycastInteraction : MonoBehaviour
     public GameObject Canvas;
 
     private new Renderer renderer;
-    private Material originalMaterial;
+    private Material[] originalMaterials;
     private GameObject inspectedObject;
     private GameObject uiObject;
+
+    private Vector3 posLastFrame;
 
     bool m_IsExamining = false;
     bool isHit = false;
@@ -30,16 +32,23 @@ public class RaycastInteraction : MonoBehaviour
         // If hit interactables (Layer 8)
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, HitDistance, 1 << 8))
         {
+            
             // Get the materials of the object and highlight it.
             Renderer currentRenderer = hit.collider.gameObject.GetComponent<Renderer>();
-            Material original = currentRenderer.materials[1];
-            HighlightBorder(currentRenderer, original);
+            Material[] original = currentRenderer.materials;
+            Material[] materialsWithHighlight = new Material[original.Length + 1];
+            HighlightBorder(currentRenderer, original, materialsWithHighlight);
 
             // If it's a collectible, then allow examinating it.
             if (hit.collider.gameObject.tag == "Collectible")
             {
                 Examinate(hit, original);
+            }   
+            if (hit.collider.gameObject.tag == "Door")
+            {
+                OpenDoor(hit);
             }
+
             isHit = true;
             return;
         }
@@ -48,30 +57,35 @@ public class RaycastInteraction : MonoBehaviour
         if (isHit && !m_IsExamining)
         { 
             isHit = false;
-            renderer.sharedMaterial = originalMaterial;
+            renderer.materials = originalMaterials;
             renderer = null;
             return;
         }       
     }
 
-    void HighlightBorder(Renderer currentRenderer, Material original)
+    void HighlightBorder(Renderer currentRenderer, Material[] original, Material[] highlight)
     {
         if (renderer == currentRenderer)
             return;
 
         if (currentRenderer && currentRenderer != renderer && renderer)
-            renderer.sharedMaterial = originalMaterial;
+            renderer.materials = originalMaterials;
 
         if (currentRenderer)
             renderer = currentRenderer;
         else
             return;
 
-        originalMaterial = original;
-        renderer.sharedMaterial = tempMaterial;
+        originalMaterials = original;
+        for (int i = 0; i < original.Length; i++)
+        {
+            highlight[i] = original[i];
+        }
+        highlight[original.Length] = tempMaterial;
+        renderer.sharedMaterials = highlight;
     }
 
-    void Examinate(RaycastHit hit, Material original)
+    void Examinate(RaycastHit hit, Material[] original)
     {
         if (!m_IsExamining)
         {
@@ -84,7 +98,7 @@ public class RaycastInteraction : MonoBehaviour
 
                 // Generate an instance of the inspected object and set its material to the original one
                 uiObject = Instantiate(inspectedObject);
-                uiObject.GetComponent<Renderer>().material = original;
+                uiObject.GetComponent<Renderer>().material = original[0];
 
                 // Sets object in front of camera and aligns position and rotation
                 uiObject.transform.SetParent(Canvas.transform, true);
@@ -101,6 +115,39 @@ public class RaycastInteraction : MonoBehaviour
                 m_IsExamining = false;
                 GetComponentInParent<UnityStandardAssets.Characters.FirstPerson.FirstPersonController>().enabled = true;
                 Destroy(uiObject);
+            }
+        }
+    }
+
+    void OpenDoor(RaycastHit hit)
+    {
+        if (!m_IsExamining)
+        {
+            inspectedObject = hit.collider.gameObject;
+
+            if (Input.GetMouseButtonDown(0))
+            {
+                m_IsExamining = true;
+                //GetComponentInParent<UnityStandardAssets.Characters.FirstPerson.FirstPersonController>().enabled = false;
+
+                posLastFrame = Input.mousePosition;
+                Debug.Log(posLastFrame);
+            }
+        }
+        else
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                var delta = Input.mousePosition - posLastFrame;
+                posLastFrame = Input.mousePosition;
+
+                var axis = Quaternion.AngleAxis(90.0f, Vector3.forward) * delta;
+                transform.rotation = Quaternion.AngleAxis(delta.m, new Vector3(0.0f, 1.0f, 0.0f)) * transform.rotation;
+            }
+            if (Input.GetMouseButtonUp(0))
+            {
+                m_IsExamining = false;
+                GetComponentInParent<UnityStandardAssets.Characters.FirstPerson.FirstPersonController>().enabled = true;
             }
         }
     }

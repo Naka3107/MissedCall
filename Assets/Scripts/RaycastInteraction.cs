@@ -142,7 +142,7 @@ public class RaycastInteraction : MonoBehaviour
                 posLastFrame = Input.mousePosition;
 
                 var axis = Quaternion.AngleAxis(90.0f, Vector3.forward) * delta;
-                transform.rotation = Quaternion.AngleAxis(delta.m, new Vector3(0.0f, 1.0f, 0.0f)) * transform.rotation;
+                transform.rotation = Quaternion.AngleAxis(delta.magnitude, new Vector3(0.0f, 1.0f, 0.0f)) * transform.rotation;
             }
             if (Input.GetMouseButtonUp(0))
             {

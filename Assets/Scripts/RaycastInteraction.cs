@@ -98,12 +98,10 @@ public class RaycastInteraction : MonoBehaviour
 
                 // Generate an instance of the inspected object and set its material to the original one
                 uiObject = Instantiate(inspectedObject);
-                uiObject.GetComponent<Renderer>().material = original[0];
 
                 // Sets object in front of camera and aligns position and rotation
                 uiObject.transform.SetParent(Canvas.transform, true);
-                uiObject.transform.SetPositionAndRotation(transform.position + transform.TransformDirection(Vector3.forward) * 0.4f, transform.rotation);
-                uiObject.transform.localScale -= new Vector3(0.3f, 0.3f, 0.3f);
+                uiObject.transform.SetPositionAndRotation(transform.position + transform.TransformDirection(Vector3.forward), transform.rotation);
 
                 uiObject.GetComponent<Interactable>().enabled = true;
             }

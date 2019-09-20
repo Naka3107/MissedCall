@@ -44,10 +44,6 @@ public class RaycastInteraction : MonoBehaviour
             {
                 Examinate(hit, original);
             }   
-            if (hit.collider.gameObject.tag == "Door")
-            {
-                OpenDoor(hit);
-            }
 
             isHit = true;
             return;
@@ -113,39 +109,6 @@ public class RaycastInteraction : MonoBehaviour
                 m_IsExamining = false;
                 GetComponentInParent<UnityStandardAssets.Characters.FirstPerson.FirstPersonController>().enabled = true;
                 Destroy(uiObject);
-            }
-        }
-    }
-
-    void OpenDoor(RaycastHit hit)
-    {
-        if (!m_IsExamining)
-        {
-            inspectedObject = hit.collider.gameObject;
-
-            if (Input.GetMouseButtonDown(0))
-            {
-                m_IsExamining = true;
-                //GetComponentInParent<UnityStandardAssets.Characters.FirstPerson.FirstPersonController>().enabled = false;
-
-                posLastFrame = Input.mousePosition;
-                Debug.Log(posLastFrame);
-            }
-        }
-        else
-        {
-            if (Input.GetMouseButtonDown(0))
-            {
-                var delta = Input.mousePosition - posLastFrame;
-                posLastFrame = Input.mousePosition;
-
-                var axis = Quaternion.AngleAxis(90.0f, Vector3.forward) * delta;
-                transform.rotation = Quaternion.AngleAxis(delta.magnitude, new Vector3(0.0f, 1.0f, 0.0f)) * transform.rotation;
-            }
-            if (Input.GetMouseButtonUp(0))
-            {
-                m_IsExamining = false;
-                GetComponentInParent<UnityStandardAssets.Characters.FirstPerson.FirstPersonController>().enabled = true;
             }
         }
     }

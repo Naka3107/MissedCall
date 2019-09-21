@@ -63,6 +63,7 @@ public class InteractDoor : MonoBehaviour
         {
             if (moveDoor)
             {
+                Camera.main.GetComponentInParent<UnityStandardAssets.Characters.FirstPerson.FirstPersonController>().enabled = false;
                 stoppedBefore = false;
                 //Debug.Log("Moving Door");
 
@@ -78,9 +79,16 @@ public class InteractDoor : MonoBehaviour
                     {
                         yRot -= Input.GetAxis("Mouse X") * ySensitivity * Time.deltaTime;
                         //Debug.Log(yRot);
+                        if (yRot > openUpperLimit)
+                        {
+                            yRot = openUpperLimit;
+                        }
+                        else if (yRot < openLowerLimit)
+                        {
+                            yRot = openLowerLimit;
+                        }
                         transform.localEulerAngles = new Vector3(0, yRot, 0);
                     }
-
                 }
                 else if (doorCollision == DoorCollision.BACK)
                 {
@@ -89,15 +97,23 @@ public class InteractDoor : MonoBehaviour
                     {
                         yRot += Input.GetAxis("Mouse X") * ySensitivity * Time.deltaTime;
                         //Debug.Log(yRot);
+                        if (yRot > openUpperLimit)
+                        {
+                            yRot = openUpperLimit;
+                        }
+                        else if (yRot < openLowerLimit)
+                        {
+                            yRot = openLowerLimit;
+                        }
                         transform.localEulerAngles = new Vector3(0, yRot, 0);
                     }
-                    
                 } 
             }
             else
             {
                 if (!stoppedBefore)
                 {
+                    Camera.main.GetComponentInParent<UnityStandardAssets.Characters.FirstPerson.FirstPersonController>().enabled = true;
                     stoppedBefore = true;
                     //Debug.Log("Stopped Moving Door");
                 }

@@ -33,7 +33,7 @@ public class InteractWindow : MonoBehaviour
                 if (hitInfo.collider.gameObject == WindowCollider)
                 {
                     moveWindow = true;
-                    Debug.Log("Window hit");
+                    //Debug.Log("Window hit");
                     windowCollision = WindowCollision.FRONT;
                 }
                 else
@@ -46,7 +46,7 @@ public class InteractWindow : MonoBehaviour
         if (Input.GetMouseButtonUp(0))
         {
             moveWindow = false;
-            Debug.Log("Mouse up");
+            //Debug.Log("Mouse up");
         }
     }
 
@@ -58,24 +58,32 @@ public class InteractWindow : MonoBehaviour
         {
             if (moveWindow)
             {
-                
+                Camera.main.GetComponentInParent<UnityStandardAssets.Characters.FirstPerson.FirstPersonController>().enabled = false;
                 stoppedBefore = false;
-                Debug.Log("Moving Window");
+               // Debug.Log("Moving Window");
 
                 xPos = transform.localPosition.x;
                 yPos = transform.localPosition.y;
                 zPos = transform.localPosition.z;
-                Debug.Log("YPosition: " + yPos);
-                Debug.Log("Mouse: " + Input.GetAxis("Mouse Y"));
+                //Debug.Log("YPosition: " + yPos);
+                //Debug.Log("Mouse: " + Input.GetAxis("Mouse Y"));
 
                 //Check if this is front Window or back
                 if (windowCollision == WindowCollision.FRONT)
                 {
-                    Debug.Log("Pull Up(PUSH AWAY)");
+                   // Debug.Log("Pull Up(PUSH AWAY)");
                     if ((Input.GetAxis("Mouse Y") > 0 && yPos < openUpperLimit) || (Input.GetAxis("Mouse Y") < 0 && yPos > openLowerLimit))
                     {
                         yPos += Input.GetAxis("Mouse Y") * ySensitivity * Time.deltaTime;
-                        Debug.Log(yPos);
+                        if (yPos > openUpperLimit)
+                        {
+                            yPos = openUpperLimit;
+                        }
+                        else if (yPos < openLowerLimit)
+                        {
+                            yPos = openLowerLimit;
+                        }
+                        //Debug.Log(yPos);
                         transform.localPosition = new Vector3 (xPos, yPos, zPos);
                     }
                 }
@@ -85,7 +93,8 @@ public class InteractWindow : MonoBehaviour
                 if (!stoppedBefore)
                 {
                     stoppedBefore = true;
-                    Debug.Log("Stopped Moving Window");
+                    Camera.main.GetComponentInParent<UnityStandardAssets.Characters.FirstPerson.FirstPersonController>().enabled = true;
+                    //Debug.Log("Stopped Moving Window");
                 }
             }
 

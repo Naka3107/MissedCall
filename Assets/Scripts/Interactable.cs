@@ -50,6 +50,9 @@ public class Interactable : MonoBehaviour
       }
     }
 
+    if (gameObject.tag == "Readable" && Input.GetKeyDown("space")) {
+    }
+
     // Moves object according to mouse movement
     if (Input.GetMouseButtonDown(0))
     {

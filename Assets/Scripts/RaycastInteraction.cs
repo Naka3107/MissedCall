@@ -5,6 +5,7 @@ using UnityEngine;
 public class RaycastInteraction : MonoBehaviour
 {
     public float HitDistance = 1.0f;
+    public float Zoom = 0.5f;
     public Material tempMaterial;
     public GameObject Canvas;
 
@@ -40,7 +41,8 @@ public class RaycastInteraction : MonoBehaviour
             HighlightBorder(currentRenderer, original, materialsWithHighlight);
 
             // If it's a collectible, then allow examinating it.
-            if (hit.collider.gameObject.tag == "Collectible")
+            string tag = hit.collider.gameObject.tag;
+            if (tag == "Collectible" || tag == "Readable")
             {
                 Examinate(hit, original);
             }   
@@ -97,7 +99,7 @@ public class RaycastInteraction : MonoBehaviour
 
                 // Sets object in front of camera and aligns position and rotation
                 uiObject.transform.SetParent(Canvas.transform, true);
-                uiObject.transform.SetPositionAndRotation(transform.position + transform.TransformDirection(Vector3.forward), transform.rotation);
+                uiObject.transform.SetPositionAndRotation(transform.position + transform.TransformDirection(Vector3.forward) * 0.5f, transform.rotation);
 
                 uiObject.GetComponent<Interactable>().enabled = true;
             }

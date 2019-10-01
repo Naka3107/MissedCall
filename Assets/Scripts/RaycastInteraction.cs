@@ -14,6 +14,7 @@ public class RaycastInteraction : MonoBehaviour
   private Material[] originalMaterials;
   private GameObject inspectedObject;
   private GameObject uiObject;
+  private float renderingDistance = 0.6f;
 
   private Vector3 posLastFrame;
 
@@ -103,7 +104,7 @@ public class RaycastInteraction : MonoBehaviour
 
         // Sets object in front of camera and aligns position and rotation
         uiObject.transform.SetParent(Canvas.transform, true);
-        uiObject.transform.SetPositionAndRotation(transform.position + transform.TransformDirection(Vector3.forward) * 0.5f, transform.rotation);
+        uiObject.transform.SetPositionAndRotation(transform.position + transform.TransformDirection(Vector3.forward) * renderingDistance, transform.rotation);
 
         uiObject.GetComponent<Interactable>().enabled = true;
       }
@@ -118,6 +119,7 @@ public class RaycastInteraction : MonoBehaviour
 
         // Hide backgound panel
         InteractUI.SetActive(false);
+        InteractUI.transform.Find ("ReadPanel").gameObject.SetActive(false);
       }
     }
   }

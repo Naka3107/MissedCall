@@ -121,7 +121,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 285c319e8e1770247b5ce965461e68e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Scale: 1.8
+  Scale: 0.6
   Text: "Cam,\r\n\nLa familia de Paul nos invit\xF3 a la ciudad para el fin de semana,
     al parecer quieren pasar m\xE1s tiempo de\r\ncalidad con Mike. Te dej\xE9 un poco
     de estofado y pastel en el refri y los n\xFAmeros de emergencia. Las llaves est\xE1n

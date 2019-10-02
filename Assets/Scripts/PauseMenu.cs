@@ -7,7 +7,12 @@ public class PauseMenu : MonoBehaviour
 {
     public static bool GameIsPaused = false;
 
-    public GameObject pauseMenuUI;
+    public GameObject PauseUI;
+    private GameObject Player;
+
+    void Start() {
+        Player = GameObject.Find("/Player").gameObject;
+    }
     
     // Update is called once per frame
     void Update()
@@ -27,9 +32,9 @@ public class PauseMenu : MonoBehaviour
 
     public void Resume ()
     {
-        pauseMenuUI.SetActive(false);
-        GetComponentInParent<UnityStandardAssets.Characters.FirstPerson.FirstPersonController>().enabled = true;
-        transform.parent.GetComponentInChildren<RaycastInteraction>().enabled = true;
+        PauseUI.SetActive(false);
+        Player.GetComponent<UnityStandardAssets.Characters.FirstPerson.FirstPersonController>().enabled = true;
+        Player.GetComponentInChildren<RaycastInteraction>().enabled = true;
         Time.timeScale = 1f;
         GameIsPaused = false;
         Cursor.lockState = CursorLockMode.Locked;
@@ -38,9 +43,9 @@ public class PauseMenu : MonoBehaviour
 
     void Pause ()
     {
-        pauseMenuUI.SetActive(true);
-        GetComponentInParent<UnityStandardAssets.Characters.FirstPerson.FirstPersonController>().enabled = false;
-        transform.parent.GetComponentInChildren<RaycastInteraction>().enabled = false;
+        PauseUI.SetActive(true);
+        Player.GetComponent<UnityStandardAssets.Characters.FirstPerson.FirstPersonController>().enabled = false;
+        Player.GetComponentInChildren<RaycastInteraction>().enabled = false;
         Time.timeScale = 0f;
         GameIsPaused = true;
         Cursor.lockState = CursorLockMode.None;

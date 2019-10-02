@@ -9,7 +9,7 @@ public class Interactable : MonoBehaviour {
   protected Vector3 posLastFrame;
   private bool onInit;
   private float rotationSpeed = 5.0f;
-  private GameObject readUI;
+  private GameObject ReadPanel;
   private GameObject readText;
 
   // Start is called before the first frame update
@@ -36,11 +36,12 @@ public class Interactable : MonoBehaviour {
     onInit = true;
 
     if (gameObject.tag == "Readable") {
-      readUI = transform.parent.gameObject
-        .transform.Find ("InteractUI").gameObject
+      ReadPanel = transform.parent.gameObject // BackgroundCanvas
+        .transform.parent.gameObject // InteractUI
+        .transform.Find ("ForegroundCanvas").gameObject
         .transform.Find ("ReadPanel").gameObject;
 
-      readUI.transform.Find ("ReadableText").gameObject.GetComponent<UnityEngine.UI.Text> ().text = Text;
+      ReadPanel.transform.Find ("ReadableText").gameObject.GetComponent<UnityEngine.UI.Text> ().text = Text;
     }
   }
 
@@ -56,10 +57,10 @@ public class Interactable : MonoBehaviour {
     }
 
     if (gameObject.tag == "Readable" && Input.GetKeyDown ("space")) {
-      readUI.SetActive (!readUI.active);
+      ReadPanel.SetActive (!ReadPanel.active);
     }
 
-    if (gameObject.tag != "Readable" || !readUI.active) {
+    if (gameObject.tag != "Readable" || !ReadPanel.active) {
       // Moves object according to mouse movement
       if (Input.GetMouseButtonDown (0)) {
         posLastFrame = Input.mousePosition;

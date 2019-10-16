@@ -1,0 +1,181 @@
+fileFormatVersion: 2
+guid: e7a711691c3226247a820d11cc896a0e
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: BoxGizmo01
+    100002: Camera Switcher
+    100004: Camera01
+    100006: Camera01.Target
+    100008: ChamferBox01
+    100010: Cylinder01
+    100012: Cylinder02
+    100014: Cylinder03
+    100016: Group01
+    100018: Lensflare Source
+    100020: Moon
+    100022: Moon Light
+    100024: Object01
+    100026: Object02
+    100028: Object03
+    100030: Plane01
+    100032: Shadow Plane
+    100034: Sky
+    100036: Sky Dome
+    100038: Sky Null
+    100040: Sun
+    100042: Sun light
+    100044: Sun01
+    100046: Sun01.Target
+    100048: //RootNode
+    400000: BoxGizmo01
+    400002: Camera Switcher
+    400004: Camera01
+    400006: Camera01.Target
+    400008: ChamferBox01
+    400010: Cylinder01
+    400012: Cylinder02
+    400014: Cylinder03
+    400016: Group01
+    400018: Lensflare Source
+    400020: Moon
+    400022: Moon Light
+    400024: Object01
+    400026: Object02
+    400028: Object03
+    400030: Plane01
+    400032: Shadow Plane
+    400034: Sky
+    400036: Sky Dome
+    400038: Sky Null
+    400040: Sun
+    400042: Sun light
+    400044: Sun01
+    400046: Sun01.Target
+    400048: //RootNode
+    2000000: Camera01
+    2100000: vray 24 - Default
+    2100002: vray 01 - Default
+    2100004: Chromium
+    2100006: Plastic Clear_
+    2100008: _Stainless_Steel_Brushed_by_dc0110
+    2100010: stainless steel
+    2100012: chrome
+    2300000: ChamferBox01
+    2300002: Cylinder01
+    2300004: Cylinder02
+    2300006: Cylinder03
+    2300008: Object01
+    2300010: Object02
+    2300012: Object03
+    2300014: Plane01
+    3300000: ChamferBox01
+    3300002: Cylinder01
+    3300004: Cylinder02
+    3300006: Cylinder03
+    3300008: Object01
+    3300010: Object02
+    3300012: Object03
+    3300014: Plane01
+    4300000: Plane01
+    4300002: Cylinder02
+    4300004: ChamferBox01
+    4300006: Cylinder01
+    4300008: Object01
+    4300010: Object02
+    4300012: Cylinder03
+    4300014: Object03
+    7400000: C4D Animation Take
+    9500000: //RootNode
+    10800000: Lensflare Source
+    10800002: Moon Light
+    10800004: Sky Dome
+    10800006: Sun light
+    10800008: Sun01
+    6000828045688606266: Camera01
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 0.0254
+    hasPreviousCalculatedGlobalScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

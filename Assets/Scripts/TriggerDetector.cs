@@ -19,4 +19,8 @@ public class TriggerDetector : MonoBehaviour {
     void OnTriggerEnter (Collider other) {
         GameManager.GetComponent<GameManager> ().AdvanceConversation ();
     }
+
+    void OnTriggerStay (Collider other) {
+        GameManager.GetComponent<GameManager> ().CheckConversationProgress ();
+    }
 }

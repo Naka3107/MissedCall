@@ -17,11 +17,13 @@ public class Phrase {
 public class Node {
     private Phrase Trigger, Consequence;
     private List<Node> Children;
+    private bool final;
 
-    public Node (Phrase Trigger, Phrase Consequence) {
+    public Node (Phrase Trigger, Phrase Consequence, bool final = false) {
         this.Trigger = Trigger;
         this.Consequence = Consequence;
         this.Children = new List<Node> ();
+        this.final = final;
     }
 
     public Phrase GetTrigger () {
@@ -44,6 +46,10 @@ public class Node {
         return Children;
     }
 
+    public bool isFinal () {
+        return final;
+    }
+
     public string ToString () {
         return "Trigger: " + Trigger.ToString () +
             "\n" + "Consequence: " + Consequence.ToString () +
@@ -54,7 +60,7 @@ public class Node {
 public class Conversation {
     private Node root;
     private Node currentMessage;
-    private bool isActive;
+    private bool active;
     private bool hasStarted;
 
     public Conversation () {
@@ -73,7 +79,8 @@ public class Conversation {
         parent = root.GetSon (0);
         parent.AddSon (new Node (
             new Phrase ("Do we know each other?"),
-            new Phrase ("I do.")
+            new Phrase ("I do."),
+            true
         ));
 
         parent.AddSon (new Node (
@@ -83,33 +90,37 @@ public class Conversation {
 
         parent.AddSon (new Node (
             new Phrase ("Who are you?"),
-            new Phrase ("")
+            new Phrase (""),
+            true
         ));
 
         parent = parent.GetSon (1);
         parent.AddSon (new Node (
             new Phrase ("Rosie?!"),
-            new Phrase ("")
+            new Phrase (""),
+            true
         ));
 
         parent.AddSon (new Node (
             new Phrase ("Mom?!"),
-            new Phrase ("")
+            new Phrase (""),
+            true
         ));
 
         parent.AddSon (new Node (
             new Phrase ("Who?"),
-            new Phrase ("")
+            new Phrase (""),
+            true
         ));
 
         currentMessage = root;
 
-        isActive = false;
+        active = false;
         hasStarted = false;
     }
 
     public void Activate () {
-        isActive = true;
+        active = true;
 
         if (!hasStarted) {
             Debug.Log (currentMessage.GetConsequence ().ToString ());
@@ -121,15 +132,14 @@ public class Conversation {
 
             hasStarted = true;
         }
-
     }
 
-    public void DeActivate () {
-        isActive = false;
+    public bool isActive () {
+        return active;
     }
 
     public void Update () {
-        if (!isActive) return;
+        if (!active) return;
 
         if (Input.GetKeyDown ("0")) {
             currentMessage = currentMessage.GetSon (0);
@@ -163,5 +173,7 @@ public class Conversation {
                 i++;
             }
         }
+
+        if (currentMessage.isFinal ()) active = false;
     }
 }

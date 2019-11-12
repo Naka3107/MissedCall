@@ -7,6 +7,8 @@ TagManager:
   - Door
   - Collectible
   - Readable
+  - WoodFloor
+  - ConcreteFloor
   layers:
   - Default
   - TransparentFX

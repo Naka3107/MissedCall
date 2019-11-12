@@ -47,6 +47,9 @@ public class Interactable : MonoBehaviour {
 
   // Update is called once per frame
   void Update () {
+
+    if (PauseMenu.GameIsPaused) return;
+
     // Locks interaction until first mouse click has been released
     if (onInit) {
       if (Input.GetMouseButtonUp (0)) {

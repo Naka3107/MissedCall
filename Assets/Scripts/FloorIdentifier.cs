@@ -5,8 +5,9 @@ using UnityStandardAssets.Characters.FirstPerson;
 
 public class FloorIdentifier : MonoBehaviour {
 
-    [SerializeField] private AudioClip[] m_GrassSteps;
+    [SerializeField] private AudioClip[] m_CarpetSteps;
     [SerializeField] private AudioClip[] m_ConcreteSteps;
+    [SerializeField] private AudioClip[] m_GrassSteps;
     [SerializeField] private AudioClip[] m_WoodSteps;
 
     private FirstPersonController m_FirstPersonController;
@@ -34,6 +35,11 @@ public class FloorIdentifier : MonoBehaviour {
             else if (floorTag == "ConcreteFloor" && floorTag != previousFloor) {
                 previousFloor = floorTag;
                 m_FirstPersonController.ChangeFootstepAudio (m_ConcreteSteps);
+            }
+
+            else if (floorTag == "CarpetFloor" && floorTag != previousFloor) {
+                previousFloor = floorTag;
+                m_FirstPersonController.ChangeFootstepAudio (m_CarpetSteps);
             }
 
             // Grass

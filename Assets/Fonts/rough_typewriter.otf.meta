@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: 940c9152e4a7522448bacb2bb46fdf85
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: RoughTypewriter
+  fontNames:
+  - RoughTypewriter
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 80c07ace093e656448d14746aca8a687, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

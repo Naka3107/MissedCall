@@ -2,120 +2,127 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InteractDoor : MonoBehaviour
-{
-    public float ySensitivity = 300f;
-    public float openLowerLimit = 180;
-    public float openUpperLimit = 250;
+public class InteractDoor : MonoBehaviour {
+    [SerializeField] private float ySensitivity = 300f;
+    [SerializeField] private float openLowerLimit = 180;
+    [SerializeField] private float openUpperLimit = 250;
+    [SerializeField] private bool isOpen = false;
 
-    public GameObject frontDoorCollider;
-    public GameObject backDoorCollider;
+    [SerializeField] private GameObject frontDoorCollider;
+    [SerializeField] private GameObject backDoorCollider;
 
-    bool moveDoor = false;
-    DoorCollision doorCollision = DoorCollision.NONE;
-    float yRot = 0;
+    [SerializeField] private AudioClip m_Locked;
+    [SerializeField] private AudioClip m_Open;
+    [SerializeField] private AudioClip m_Close;
+    private AudioSource m_AudioSource;
+
+    private bool moveDoor = false;
+    private DoorCollision doorCollision = DoorCollision.NONE;
+    private float yRot = 0;
+
+    void PlaySound (AudioClip sound) {
+        m_AudioSource.loop = false;
+        m_AudioSource.clip = sound;
+        m_AudioSource.pitch = Random.Range (0.8f, 1.2f);
+        m_AudioSource.Play ();
+    }
+
+    void PlayLoopedSound (AudioClip sound) {
+        m_AudioSource.loop = true;
+        m_AudioSource.clip = sound;
+        m_AudioSource.pitch = Random.Range (0.8f, 1.2f);
+        m_AudioSource.Play ();
+    }
 
     // Use this for initialization
-    void Start()
-    {
-        StartCoroutine(doorMover());
+    void Start () {
+        m_AudioSource = GetComponent<AudioSource> ();
+        StartCoroutine (doorMover ());
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetMouseButtonDown(0))
-        {
-            RaycastHit hitInfo = new RaycastHit();
-            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo, 2.0f))
-            {
-                if (hitInfo.collider.gameObject == frontDoorCollider)
-                {
+    void Update () {
+        if (Input.GetMouseButtonDown (0)) {
+            RaycastHit[] hits;
+
+            hits = Physics.RaycastAll (Camera.main.ScreenPointToRay (Input.mousePosition), 2.0f);
+
+            for (int i = 0; i < hits.Length; i++) {
+                RaycastHit hitInfo = hits[i];
+
+                if (hitInfo.collider.gameObject == frontDoorCollider) {
                     moveDoor = true;
-                    //Debug.Log("Front door hit");
                     doorCollision = DoorCollision.FRONT;
-                }
-                else if (hitInfo.collider.gameObject == backDoorCollider)
-                {
+
+                    if (!isOpen) PlaySound (m_Locked);
+                    else if (!m_AudioSource.isPlaying) PlayLoopedSound (m_Open);
+
+                } else if (hitInfo.collider.gameObject == backDoorCollider) {
                     moveDoor = true;
-                    //Debug.Log("Back door hit");
                     doorCollision = DoorCollision.BACK;
-                }
-                else
-                {
+
+                    if (!isOpen) PlaySound (m_Locked);
+                    else if (!m_AudioSource.isPlaying) PlayLoopedSound (m_Open);
+
+                } else {
                     doorCollision = DoorCollision.NONE;
                 }
             }
         }
 
-        if (Input.GetMouseButtonUp(0))
-        {
+        if (Input.GetMouseButtonUp (0)) {
             moveDoor = false;
-            //Debug.Log("Mouse up");
+            if (m_AudioSource.clip == m_Open) m_AudioSource.Pause ();
         }
     }
 
-    IEnumerator doorMover()
-    {
+    IEnumerator doorMover () {
         bool stoppedBefore = false;
 
-        while (true)
-        {
-            if (moveDoor)
-            {
-                Camera.main.GetComponentInParent<UnityStandardAssets.Characters.FirstPerson.FirstPersonController>().enabled = false;
+        while (isOpen) {
+            if (moveDoor) {
+                Camera.main.GetComponentInParent<UnityStandardAssets.Characters.FirstPerson.FirstPersonController> ().enabled = false;
                 stoppedBefore = false;
-                //Debug.Log("Moving Door");
 
                 yRot = transform.localEulerAngles.y;
-                //Debug.Log("YRotation: " + yRot);
-                //Debug.Log("Mouse: " + Input.GetAxis("Mouse X"));
+                float yMov = Input.GetAxis ("Mouse X") * ySensitivity * Time.deltaTime;
 
                 //Check if this is front door or back
-                if (doorCollision == DoorCollision.FRONT)
-                {
-                    //Debug.Log("Pull Up(PUSH AWAY)");
-                    if ((Input.GetAxis("Mouse X") < 0 && yRot < openUpperLimit) || (Input.GetAxis("Mouse X") > 0 && yRot > openLowerLimit))
-                    {
-                        yRot -= Input.GetAxis("Mouse X") * ySensitivity * Time.deltaTime;
-                        //Debug.Log(yRot);
-                        if (yRot > openUpperLimit)
-                        {
+                if (doorCollision == DoorCollision.FRONT) {
+                    if ((Input.GetAxis ("Mouse X") < 0 && yRot < openUpperLimit) || (Input.GetAxis ("Mouse X") > 0 && yRot > openLowerLimit)) {
+                        yRot -= yMov;
+
+                        if (yRot > openUpperLimit) {
                             yRot = openUpperLimit;
-                        }
-                        else if (yRot < openLowerLimit)
-                        {
+                        } else if (yRot < openLowerLimit) {
                             yRot = openLowerLimit;
-                        }
-                        transform.localEulerAngles = new Vector3(0, yRot, 0);
+                            PlaySound (m_Close);
+                        } else if (yMov < 1.0 && m_AudioSource.isPlaying) m_AudioSource.Pause ();
+                        else if (!m_AudioSource.isPlaying) m_AudioSource.UnPause ();
+
+                        transform.localEulerAngles = new Vector3 (0, yRot, 0);
+
+                    }
+                } else if (doorCollision == DoorCollision.BACK) {
+                    if ((Input.GetAxis ("Mouse X") > 0 && yRot < openUpperLimit) || (Input.GetAxis ("Mouse X") < 0 && yRot > openLowerLimit)) {
+                        yRot += yMov;
+
+                        if (yRot > openUpperLimit) {
+                            yRot = openUpperLimit;
+                        } else if (yRot < openLowerLimit) {
+                            yRot = openLowerLimit;
+                            PlaySound (m_Close);
+                        } else if (yMov < 1.0 && m_AudioSource.isPlaying) m_AudioSource.Pause ();
+                        else if (!m_AudioSource.isPlaying) m_AudioSource.UnPause ();
+
+                        transform.localEulerAngles = new Vector3 (0, yRot, 0);
+
                     }
                 }
-                else if (doorCollision == DoorCollision.BACK)
-                {
-                    //Debug.Log("Pull Up(PUSH AWAY)");
-                    if ((Input.GetAxis("Mouse X") > 0 && yRot < openUpperLimit)||(Input.GetAxis("Mouse X") < 0 && yRot > openLowerLimit))
-                    {
-                        yRot += Input.GetAxis("Mouse X") * ySensitivity * Time.deltaTime;
-                        //Debug.Log(yRot);
-                        if (yRot > openUpperLimit)
-                        {
-                            yRot = openUpperLimit;
-                        }
-                        else if (yRot < openLowerLimit)
-                        {
-                            yRot = openLowerLimit;
-                        }
-                        transform.localEulerAngles = new Vector3(0, yRot, 0);
-                    }
-                } 
-            }
-            else
-            {
-                if (!stoppedBefore)
-                {
-                    Camera.main.GetComponentInParent<UnityStandardAssets.Characters.FirstPerson.FirstPersonController>().enabled = true;
+            } else {
+                if (!stoppedBefore) {
+                    Camera.main.GetComponentInParent<UnityStandardAssets.Characters.FirstPerson.FirstPersonController> ().enabled = true;
                     stoppedBefore = true;
-                    //Debug.Log("Stopped Moving Door");
                 }
             }
 
@@ -124,11 +131,10 @@ public class InteractDoor : MonoBehaviour
 
     }
 
-
-    enum DoorCollision
-    {
-        NONE, FRONT, BACK
+    enum DoorCollision {
+        NONE,
+        FRONT,
+        BACK
     }
-
 
 }

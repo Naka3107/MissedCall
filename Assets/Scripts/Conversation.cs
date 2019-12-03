@@ -61,121 +61,46 @@ public class Conversation {
     private Node root;
     private Node currentMessage;
     private bool active;
-    private bool hasStarted;
+    private bool hasEnded;
 
-    public Conversation () {
-        Node parent;
-
-        root = new Node (
-            null,
-            new Phrase ("Hello. I just wanna know how are you?")
-        );
-
-        root.AddSon (new Node (
-            new Phrase ("Fine, thank you..."),
-            new Phrase ("Good. You had me worried.")
-        ));
-
-        parent = root.GetSon (0);
-        parent.AddSon (new Node (
-            new Phrase ("Do we know each other?"),
-            new Phrase ("I do."),
-            true
-        ));
-
-        parent.AddSon (new Node (
-            new Phrase ("Why?"),
-            new Phrase ("She will leave you.")
-        ));
-
-        parent.AddSon (new Node (
-            new Phrase ("Who are you?"),
-            new Phrase (""),
-            true
-        ));
-
-        parent = parent.GetSon (1);
-        parent.AddSon (new Node (
-            new Phrase ("Rosie?!"),
-            new Phrase (""),
-            true
-        ));
-
-        parent.AddSon (new Node (
-            new Phrase ("Mom?!"),
-            new Phrase (""),
-            true
-        ));
-
-        parent.AddSon (new Node (
-            new Phrase ("Who?"),
-            new Phrase (""),
-            true
-        ));
-
-        currentMessage = root;
-
-        active = false;
-        hasStarted = false;
+    public Conversation (Node root) {
+        this.root = root;
+        this.currentMessage = root;
+        this.active = false;
+        this.hasEnded = false;
     }
 
-    public bool Activate () {
+    public Node Start () {
         active = true;
-
-        if (!hasStarted) {
-            Debug.Log (currentMessage.GetConsequence ().ToString ());
-            int i = 0;
-            foreach (Node son in currentMessage.GetAllSons ()) {
-                Debug.Log (i + ") " + son.GetTrigger ().ToString ());
-                i++;
-            }
-
-            hasStarted = true;
-        }
-
-        return hasStarted;
+        return currentMessage;
     }
 
-    public bool isActive () {
+    public bool IsActive () {
         return active;
     }
 
-    public void Update () {
-        if (!active) return;
+    public bool HasEnded () {
+        return hasEnded;
+    }
+
+    public Node Update () {
+        if (!active) return null;
 
         if (Input.GetKeyDown ("0")) {
             currentMessage = currentMessage.GetSon (0);
-
-            Debug.Log (currentMessage.GetConsequence ().ToString ());
-            int i = 0;
-            foreach (Node son in currentMessage.GetAllSons ()) {
-                Debug.Log (i + ") " + son.GetTrigger ().ToString ());
-                i++;
-            }
-        }
-
-        if (Input.GetKeyDown ("1")) {
+        } else if (Input.GetKeyDown ("1")) {
             currentMessage = currentMessage.GetSon (1);
-
-            Debug.Log (currentMessage.GetConsequence ().ToString ());
-            int i = 0;
-            foreach (Node son in currentMessage.GetAllSons ()) {
-                Debug.Log (i + ") " + son.GetTrigger ().ToString ());
-                i++;
-            }
-        }
-
-        if (Input.GetKeyDown ("2")) {
+        } else if (Input.GetKeyDown ("2")) {
             currentMessage = currentMessage.GetSon (2);
-
-            Debug.Log (currentMessage.GetConsequence ().ToString ());
-            int i = 0;
-            foreach (Node son in currentMessage.GetAllSons ()) {
-                Debug.Log (i + ") " + son.GetTrigger ().ToString ());
-                i++;
-            }
+        } else {
+            return null;
         }
 
-        if (currentMessage.isFinal ()) active = false;
+        if (currentMessage.isFinal ()) {
+            active = false;
+            hasEnded = true;
+        }
+
+        return currentMessage;
     }
 }

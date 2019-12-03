@@ -14,13 +14,21 @@ public class RaycastInteraction : MonoBehaviour {
   private GameObject UIBackgoundCanvas;
   private float renderingDistance = 0.2f;
 
+  private AudioSource m_AudioSource;
+  [SerializeField] private AudioClip m_Keys;
+  [SerializeField] private AudioClip m_Paper;
+
   bool m_IsExamining = false;
   bool isHit = false;
+
+  GameObject hitted;
+  string objectTag;
 
   // Start is called before the first frame update
   void Start () {
     renderer = null;
 
+    m_AudioSource = gameObject.GetComponentInParent<AudioSource> ();
     UIBackgoundCanvas = InteractUI.transform.Find ("BackgroundCanvas").gameObject;
   }
 
@@ -30,17 +38,18 @@ public class RaycastInteraction : MonoBehaviour {
 
     // If hit interactables (Layer 8)
     if (Physics.Raycast (transform.position, transform.TransformDirection (Vector3.forward), out hit, HitDistance, 1 << 8)) {
+      hitted = hit.collider.gameObject;
 
       // Get the materials of the object and highlight it.
-      Renderer currentRenderer = hit.collider.gameObject.GetComponent<Renderer> ();
+      Renderer currentRenderer = hitted.GetComponent<Renderer> ();
       Material[] original = currentRenderer.materials;
       Material[] materialsWithHighlight = new Material[original.Length + 1];
       HighlightBorder (currentRenderer, original, materialsWithHighlight);
 
       // If it's a collectible, then allow examinating it.
-      string tag = hit.collider.gameObject.tag;
-      if (tag == "Collectible" || tag == "Readable") {
-        Examinate (hit, original);
+      objectTag = hitted.tag;
+      if (objectTag == "Collectible" || objectTag == "Readable" || objectTag == "Key") {
+        Examinate (original);
       }
 
       isHit = true;
@@ -54,6 +63,13 @@ public class RaycastInteraction : MonoBehaviour {
       renderer = null;
       return;
     }
+  }
+
+  void PlaySound (AudioClip sound) {
+    m_AudioSource.loop = false;
+    m_AudioSource.clip = sound;
+    m_AudioSource.pitch = Random.Range (0.8f, 1.2f);
+    m_AudioSource.Play ();
   }
 
   void HighlightBorder (Renderer currentRenderer, Material[] original, Material[] highlight) {
@@ -76,11 +92,26 @@ public class RaycastInteraction : MonoBehaviour {
     renderer.sharedMaterials = highlight;
   }
 
-  void Examinate (RaycastHit hit, Material[] original) {
+  void Examinate (Material[] original) {
     if (!m_IsExamining) {
-      inspectedObject = hit.collider.gameObject;
+      inspectedObject = hitted;
 
       if (Input.GetMouseButtonDown (0)) {
+        // Unique behavior
+        switch (objectTag) {
+          case "Collectible":
+          case "Readable":
+            PlaySound (m_Paper);
+            break;
+
+          case "Key":
+            PlaySound (m_Keys);
+            break;
+
+          default:
+            break;
+        }
+
         m_IsExamining = true;
         GetComponentInParent<UnityStandardAssets.Characters.FirstPerson.FirstPersonController> ().enabled = false;
 
@@ -98,6 +129,21 @@ public class RaycastInteraction : MonoBehaviour {
       }
     } else {
       if (Input.GetKeyDown (KeyCode.Q)) {
+        // Unique behavior
+        switch (objectTag) {
+          case "Collectible":
+          case "Readable":
+            break;
+
+          case "Key":
+            GameManager.hasKey = true;
+            hitted.SetActive(false);
+            break;
+
+          default:
+            break;
+        }
+
         m_IsExamining = false;
         GetComponentInParent<UnityStandardAssets.Characters.FirstPerson.FirstPersonController> ().enabled = true;
         Destroy (uiObject);

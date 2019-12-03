@@ -34,6 +34,10 @@ public class InteractDoor : MonoBehaviour {
         m_AudioSource.Play ();
     }
 
+    void UpdateDoorStatus () {
+        isOpen = GameManager.hasKey || isOpen;
+    }
+
     // Use this for initialization
     void Start () {
         m_AudioSource = GetComponent<AudioSource> ();
@@ -42,6 +46,8 @@ public class InteractDoor : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
+        UpdateDoorStatus ();
+
         if (Input.GetMouseButtonDown (0)) {
             RaycastHit[] hits;
 
@@ -79,8 +85,8 @@ public class InteractDoor : MonoBehaviour {
     IEnumerator doorMover () {
         bool stoppedBefore = false;
 
-        while (isOpen) {
-            if (moveDoor) {
+        while (true) {
+            if (moveDoor && isOpen) {
                 Camera.main.GetComponentInParent<UnityStandardAssets.Characters.FirstPerson.FirstPersonController> ().enabled = false;
                 stoppedBefore = false;
 

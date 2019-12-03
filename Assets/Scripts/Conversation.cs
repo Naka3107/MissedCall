@@ -119,7 +119,7 @@ public class Conversation {
         hasStarted = false;
     }
 
-    public void Activate () {
+    public bool Activate () {
         active = true;
 
         if (!hasStarted) {
@@ -132,6 +132,8 @@ public class Conversation {
 
             hasStarted = true;
         }
+
+        return hasStarted;
     }
 
     public bool isActive () {

@@ -1,0 +1,161 @@
+fileFormatVersion: 2
+guid: c640728935b869b40951873d6010b95c
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: Box011
+    100002: Box013
+    100004: Box014
+    100006: Box015
+    100008: Cylinder00
+    100010: Cylinder01
+    100012: Cylinder02
+    100014: Cylinder03
+    100016: Cylinder04
+    100018: Plane004
+    100020: R3D_man_wo
+    100022: R3D_truck_
+    100024: //RootNode
+    100026: Sphere037
+    400000: Box011
+    400002: Box013
+    400004: Box014
+    400006: Box015
+    400008: Cylinder00
+    400010: Cylinder01
+    400012: Cylinder02
+    400014: Cylinder03
+    400016: Cylinder04
+    400018: Plane004
+    400020: R3D_man_wo
+    400022: R3D_truck_
+    400024: //RootNode
+    400026: Sphere037
+    2100000: R3D_garage_toy_m
+    2100002: R3D_garage_toy_w
+    2100004: R3D_garage_to1
+    2100006: R3D_garage_toy_t
+    2100008: R3D_garage_to2
+    2100010: R3D_garage_toy_l
+    2100012: R3D_garage_to3
+    2300000: Box011
+    2300002: Box013
+    2300004: Box014
+    2300006: Box015
+    2300008: Cylinder00
+    2300010: Cylinder01
+    2300012: Cylinder02
+    2300014: Cylinder03
+    2300016: Cylinder04
+    2300018: Plane004
+    2300020: R3D_man_wo
+    2300022: Sphere037
+    3300000: Box011
+    3300002: Box013
+    3300004: Box014
+    3300006: Box015
+    3300008: Cylinder00
+    3300010: Cylinder01
+    3300012: Cylinder02
+    3300014: Cylinder03
+    3300016: Cylinder04
+    3300018: Plane004
+    3300020: R3D_man_wo
+    3300022: Sphere037
+    4300000: R3D_man_wo
+    4300002: Sphere037
+    4300004: Cylinder03
+    4300006: Cylinder00
+    4300008: Box011
+    4300010: Box013
+    4300012: Box015
+    4300014: Box014
+    4300016: Cylinder03
+    4300018: Plane004
+    4300020: Cylinder03
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 0.05
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 1
+    hasPreviousCalculatedGlobalScale: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
